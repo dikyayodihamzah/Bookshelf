@@ -2,6 +2,14 @@
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
+const filterBooks = (books) => {
+  const result = books.map((book) => {
+    const { id, name, publisher } = book;
+    return { id, name, publisher };
+  });
+  return result;
+};
+
 const addBookHandler = (request, h) => {
   const {
     name,
@@ -86,12 +94,13 @@ const getAllBooksHandler = (request, h) => {
 
   if (name !== undefined) {
     const selectedBooks = books.filter((book) =>
-      book.name.toLowerCase().includes(name.toLowerCase()));
+      book.name.toLowerCase().includes(name.toLowerCase())
+    );
 
     const response = h.response({
       status: 'success',
       data: {
-        books: selectedBooks,
+        books: filterBooks(selectedBooks),
       },
     });
 
@@ -106,7 +115,7 @@ const getAllBooksHandler = (request, h) => {
       const response = h.response({
         status: 'success',
         data: {
-          books: selectedBooks,
+          books: filterBooks(selectedBooks),
         },
       });
 
@@ -120,7 +129,7 @@ const getAllBooksHandler = (request, h) => {
       const response = h.response({
         status: 'success',
         data: {
-          books: selectedBooks,
+          books: filterBooks(selectedBooks),
         },
       });
 
@@ -136,7 +145,7 @@ const getAllBooksHandler = (request, h) => {
       const response = h.response({
         status: 'success',
         data: {
-          books: selectedBooks,
+          books: filterBooks(selectedBooks),
         },
       });
 
@@ -150,7 +159,7 @@ const getAllBooksHandler = (request, h) => {
       const response = h.response({
         status: 'success',
         data: {
-          books: selectedBooks,
+          books: filterBooks(selectedBooks),
         },
       });
 
@@ -159,11 +168,10 @@ const getAllBooksHandler = (request, h) => {
     }
   }
 
-  console.log(books);
   const response = h.response({
     status: 'success',
     data: {
-      books,
+      books: filterBooks(books),
     },
   });
 
@@ -283,7 +291,7 @@ const deleteBookByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    messgae: 'Buku gagal dihapus. Id tidak ditemukan',
+    message: 'Buku gagal dihapus. Id tidak ditemukan',
   });
 
   response.code(404);
